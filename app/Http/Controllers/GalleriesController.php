@@ -47,7 +47,7 @@ class GalleriesController extends Controller
      */
     public function show(Gallery $gallery)
     {
-        //
+        // $gallery->load('images'); --za jednu sliku
     }
 
     /**

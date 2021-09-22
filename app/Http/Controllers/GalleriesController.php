@@ -14,7 +14,7 @@ class GalleriesController extends Controller
      */
     public function index()
     {
-        $galleries = Gallery::with('images' , 'user')->get();
+        $galleries = Gallery::with('images' , 'user')->paginate(10);
         return response()->json($galleries);
     }
 

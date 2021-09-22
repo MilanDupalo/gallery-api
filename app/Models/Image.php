@@ -9,6 +9,10 @@ class Image extends Model
 {
     use HasFactory;
 
+    public function gallery() {
+        return $this->belongsTo(Gallery::class);
+    }
+
     protected $fillable = [
         'imageURL',
     ];

@@ -31,4 +31,6 @@ Route::post('/auth/logout', [AuthController::class, 'logout']);
 
 Route::get('/galleries', [GalleriesController::class, 'index']);
 
+Route::get('/galleries/{gallery}', [GalleriesController::class, 'show']);
+
 

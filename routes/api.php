@@ -33,4 +33,6 @@ Route::get('/galleries', [GalleriesController::class, 'index']);
 
 Route::get('/galleries/{gallery}', [GalleriesController::class, 'show']);
 
+Route::get('/my-galleries/{user_id}', [GalleriesController::class, 'getMyGalleries']);
+
 

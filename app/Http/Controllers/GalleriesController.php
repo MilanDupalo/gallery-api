@@ -84,4 +84,10 @@ class GalleriesController extends Controller
     {
         //
     }
+
+    public function getMyGalleries($user_id)
+    {
+        $galleries = Gallery::with('images')->where('user_id',$user_id)->get();
+        return response()->json($galleries);
+    }
 }

@@ -21,4 +21,16 @@ class Gallery extends Model
         'title',
         'description',
     ];
+
+    public static function search_by_title($title = null)
+    {
+        $query = self::query();
+
+        if ($title) {
+            $title = strtolower($title);
+            $query->whereRaw('lower(title) like "%' . $title . '%"');
+        }
+
+        return $query;
+    }
 }

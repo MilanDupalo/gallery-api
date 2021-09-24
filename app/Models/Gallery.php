@@ -26,7 +26,7 @@ class Gallery extends Model
         'title',
         'description',
         'imageURL',
-        'user_id',
+
     ];
 
     public static function search_by_title($title = null)

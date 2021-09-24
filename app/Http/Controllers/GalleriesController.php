@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\GalleryRequest;
 use App\Models\Gallery;
+use App\Models\Image;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class GalleriesController extends Controller
 {
@@ -37,9 +40,22 @@ class GalleriesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(GalleryRequest $request)
     {
-        //
+        $data = $request->validated();
+
+        $gallery = new Gallery;
+        $gallery->title = $data['title'];
+        $gallery->description = $data['description'];
+        $gallery->user()->associate(Auth::user());
+        $gallery->save();
+
+        $image = new Image;
+        $image->imageURl = $data['imageURL'];
+        $image->gallery()->associate($gallery);
+        $image->save();
+
+        return response()->json($gallery);
     }
 
     /**

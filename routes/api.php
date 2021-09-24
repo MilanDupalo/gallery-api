@@ -47,4 +47,4 @@ Route::post('/galleries/{gallery}/comments', [CommentController::class, 'store']
 
 Route::delete('/comments/{comment}', [CommentController::class, 'destroy']);
 
-
+Route::post('/create-galleries', [GalleriesController::class, 'store']);

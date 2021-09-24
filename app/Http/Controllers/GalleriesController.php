@@ -14,11 +14,9 @@ class GalleriesController extends Controller
      */
     public function index(Request $request)
     {
-        // $galleries = Gallery::with('images' , 'user')->paginate(10);
-        // return response()->json($galleries);
-        // $galleries = Gallery::search_by_title($title)->paginate(10);
+
         $title = $request->query('title');
-        $galleries = Gallery::search_by_title($title)->with('images', 'user')->paginate(10);
+        $galleries = Gallery::search_by_title($title)->with('images', 'user', 'comments')->paginate(10);
         return response()->json($galleries);
 
     }
@@ -52,7 +50,7 @@ class GalleriesController extends Controller
      */
     public function show(Gallery $gallery)
     {
-            $gallery->load('images', 'user');
+            $gallery->load('images', 'user', 'comments.user');
             return response()->json($gallery);
     }
 

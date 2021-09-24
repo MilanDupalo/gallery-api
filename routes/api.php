@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\GalleriesController;
+use App\Http\Controllers\CommentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,18 +22,29 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 
-Route::get('/auth/me', [AuthController::class, 'getMyProfile']);
 
-Route::post('/auth/register', [AuthController::class, 'register']);
+Route::group(['prefix' => 'auth'], function () {
 
-Route::post('/auth/login', [AuthController::class, 'login']);
+    Route::get('/me', [AuthController::class, 'getMyProfile'])->middleware('auth');
+    Route::post('/register', [AuthController::class, 'register']);
+    Route::post('/login', [AuthController::class, 'login']);
+    Route::post('/refresh', [AuthController::class, 'refreshToken'])->middleware('auth');
+    Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth');
+});
 
-Route::post('/auth/logout', [AuthController::class, 'logout']);
+// Route::get('/auth/me', [AuthController::class, 'getMyProfile']);
+// Route::post('/auth/register', [AuthController::class, 'register']);
+// Route::post('/auth/login', [AuthController::class, 'login']);
+// Route::post('/auth/logout', [AuthController::class, 'logout']);
 
 Route::get('/galleries', [GalleriesController::class, 'index']);
 
 Route::get('/galleries/{gallery}', [GalleriesController::class, 'show']);
 
 Route::get('/my-galleries/{user_id}', [GalleriesController::class, 'getMyGalleries']);
+
+Route::post('/galleries/{gallery}/comments', [CommentController::class, 'store']);
+
+Route::delete('/comments/{comment}', [CommentController::class, 'destroy']);
 
 

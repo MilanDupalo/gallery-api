@@ -17,9 +17,16 @@ class Gallery extends Model
         return $this->hasMany(Image::class);
     }
 
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
     protected $fillable = [
         'title',
         'description',
+        'imageURL',
+        'user_id',
     ];
 
     public static function search_by_title($title = null)

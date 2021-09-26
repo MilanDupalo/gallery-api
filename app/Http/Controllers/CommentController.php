@@ -28,6 +28,4 @@ class CommentController extends Controller
         $comment->delete();
         return response()->noContent();
     }
-
-
 }

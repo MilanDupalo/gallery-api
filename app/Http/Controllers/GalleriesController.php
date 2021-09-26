@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\EditGalleryRequest;
 use App\Http\Requests\GalleryRequest;
 use App\Models\Gallery;
 use App\Models\Image;
@@ -18,8 +19,9 @@ class GalleriesController extends Controller
     public function index(Request $request)
     {
 
-        $title = $request->query('title');
-        $galleries = Gallery::search_by_title($title)->with('images', 'user', 'comments')->paginate(10);
+        $term = $request->query('term');
+        $galleries = Gallery::search_by_title($term)->with('images', 'user', 'comments')->paginate(10);
+
         return response()->json($galleries);
 
     }
@@ -88,9 +90,19 @@ class GalleriesController extends Controller
      * @param  \App\Models\Gallery  $gallery
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Gallery $gallery)
+    public function update(EditGalleryRequest $request, Gallery $gallery, Image $images)
     {
-        //
+        $data = $request->validated();
+
+        info($data);
+        $gallery->update($data);
+
+        $image = $data['imageURL'];
+
+
+        $image = Image::where('gallery_id', $gallery->id)->update(array('imageURL' => $image));
+
+        return response()->json($gallery);
     }
 
     /**
@@ -101,7 +113,8 @@ class GalleriesController extends Controller
      */
     public function destroy(Gallery $gallery)
     {
-        //
+        $gallery->delete();
+        return response()->noContent();
     }
 
     public function getMyGalleries($user_id)
